@@ -1,9 +1,285 @@
-openjdk-8 (8u362-ga-4deepin1) unstable; urgency=medium
+openjdk-8 (8u412-ga-1) unstable; urgency=medium
 
-  * Modify debian/rules for packaging on beige.
-  *
+  * New upstream release (Closes: #1069678)
+  * CVEs
+    - CVE-2024-21011
+    - CVE-2024-21085
+    - CVE-2024-21068
+    - CVE-2024-21094
+  * Security fixes
+    - JDK-8317507, JDK-8325348: C2 compilation fails
+      with "Exceeded _node_regs array"
+    - JDK-8318340: Improve RSA key implementations
+    - JDK-8319851: Improve exception logging
+    - JDK-8322114: Improve Pack 200 handling
+    - JDK-8322122: Enhance generation of addresses
+  * Other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2024-April/018329.html
+  * Upload sponsored by QVEST ⮡ dıgıtal
+  * Re-enable running tests by default except on noble/i386 (lacks prereqs)
+  * Switch from pkg-config to pkgconf for bookworm/mantic+ (lintian)
 
- -- Yutao Meng <mengyutao@uniontech.com>  Fri, 10 Mar 2023 09:43:35 +0800
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 23 Apr 2024 01:10:58 +0200
+
+openjdk-8 (8u402-ga-8) unstable; urgency=low
+
+  * Boostrap with jdk-headless
+  * Add patch to switch dlsym use to time_t-64 functions if needed
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 06 Apr 2024 17:27:18 +0200
+
+openjdk-8 (8u402-ga-7) unstable; urgency=low
+
+  * Remove jexec from jinfo to fix update-java-alternatives (LP#2059181)
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 02 Apr 2024 17:03:49 +0200
+
+openjdk-8 (8u402-ga-6) unstable; urgency=low
+
+  * Build without tests for t64 transition
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Mar 2024 22:47:14 +0100
+
+openjdk-8 (8u402-ga-5) unstable; urgency=low
+
+  * Switch noble also to libcups2t64
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 19 Mar 2024 22:43:33 +0100
+
+openjdk-8 (8u402-ga-4) unstable; urgency=medium
+
+  * Switch to a different “random small arch:all package existing
+    only in Debian” for the cups t64 divide check, due to #805988
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 14 Mar 2024 21:33:20 +0100
+
+openjdk-8 (8u402-ga-3) unstable; urgency=medium
+
+  [ Vladimir Petko ]
+  * Unbreak installability with missing /usr/share/binfmts
+
+  [ Thorsten Glaser, Vladimir Petko ]
+  * Fix coïnstallability for real on focal, jammy, mantic where
+    libatk-wrapper-java-jni:i386 does not exist, by making its
+    absence at run-time into a warning for *only* i386 on affected
+    releases (pre-focal, noble+, Debian aren’t affected)
+    Closes: #1064191, LP#1916327, LP#2053110
+
+  [ Thorsten Glaser ]
+  * Update dlopen dependencies for t64 transition:
+    - libcups2 → libcups2t64 for trixie+ (and >noble?)
+    - libglib2.0-0 → libglib2.0-0t64 for trixie+ and noble+
+    - libgtk2.0-0 → libgtk2.0-0t64 for trixie+ and noble+
+  * Adjust bd_syslibs to ensure right side of the t64 divide
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Wed, 13 Mar 2024 22:46:46 +0100
+
+openjdk-8 (8u402-ga-2) unstable; urgency=low
+
+  * d/rules reliability fixes and extra checks
+  * Patch OpenJDK to pass errorlevel when configure fails
+  * Show config.log if present in such cases
+  * Do not install jexec alternative any more (unlike newer
+    versions it cannot run just any JAR), drop .jar binfmt
+    registration with it (LP#1775785); please use jarwrapper
+  * Restore M-A installability of focal/i386 package (LP#1916327)
+    by adding xenial, bionic, focal, jammy to the list of releases
+    built with the ATK bridge, but not enabling it by default;
+    keep jessie on, stretch and sid and mantic/noble off the list:
+    please report bugs for issues with the bridge, so sthibault
+    can find, debug, fix them
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Wed, 31 Jan 2024 06:05:28 +0100
+
+openjdk-8 (8u402-ga-1) unstable; urgency=low
+
+  [ Leslie Zhai ]
+  * Add openjdk-8 zero support for loong64 (Closes: #1060236)
+
+  [ Thorsten Glaser ]
+  * Merge 8u392-ga-1+sparc64
+  * Drop alpha-float-const.diff, seems no longer needed
+  * Use config.{guess,sub} from autotools-dev for the JDK as well
+    as icedtea-sound; autoreconf the latter; use sh explicitly
+  * Enable pulse for alpha and loong64
+  * New upstream release
+  * CVEs
+    - CVE-2024-20918
+    - CVE-2024-20919
+    - CVE-2024-20921
+    - CVE-2024-20926
+    - CVE-2024-20945
+    - CVE-2024-20952
+  * Security fixes
+    - JDK-8308204: Enhanced certificate processing
+    - JDK-8314284: Enhance Nashorn performance
+    - JDK-8314295: Enhance verification of verifier
+    - JDK-8314307: Improve loop handling
+    - JDK-8314468: Improve Compiler loops
+    - JDK-8316976: Improve signature handling
+    - JDK-8317547: Enhance TLS connection support
+  * Other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2024-January/017883.html
+  * Upload sponsored by QVEST ⮡ dıgıtal
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 19 Jan 2024 00:30:27 +0100
+
+openjdk-8 (8u392-ga-1+sparc64) unreleased; urgency=medium
+
+  * Disable Hotspot on sparc64 as it is currently broken
+    (Closes: #1056570)
+
+ -- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>  Thu, 23 Nov 2023 11:01:30 +0100
+
+openjdk-8 (8u392-ga-1) unstable; urgency=low
+
+  [ Emmanuel Bourg ]
+  * Provide versioned java-runtime, java-runtime-headless, java-sdk
+    and java-sdk-headless virtual packages
+
+  [ Thorsten Glaser ]
+  * Link with -Wl,--no-as-needed like openjdk-11 in case 8u ever loses
+    the mapfiles (cf. #1031521)
+  * Depend on libasmtools-java on buster, bullseye as well
+  * New upstream release
+  * CVEs
+    - CVE-2023-22067
+    - CVE-2023-22081
+  * Security fixes
+    - JDK-8286503, JDK-8312367: Enhance security classes
+    - JDK-8297856: Improve handling of Bidi characters
+    - JDK-8303384: Improved communication in CORBA
+    - JDK-8305815, JDK-8307278: Update Libpng to 1.6.39
+      (not relevant, as we use the system libraries)
+    - JDK-8309966: Enhanced TLS connections
+  * Other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2023-October/017616.html
+  * Use b07 for aarch32, patch it to b08/ga, aarch32-b08 doesn’t exist yet
+  * Update pathnames used by the embedded library removal code (repacking)
+  * Overhaul d/copyright using both upstream notices and diff review
+  * Upload sponsored by QVEST ⮡ dıgıtal
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 21 Oct 2023 21:26:54 +0200
+
+openjdk-8 (8u382-ga-2) unstable; urgency=low
+
+  * Update 8u382-ga-1 changelog entry
+  * On releases that have it, switch to libjpeg-dev B-D so that
+    certain derivatives can reuse d/control (Closes: #1042855)
+  * Use default gcc-13 on trixie/sid, mantic
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 03 Aug 2023 02:55:51 +0200
+
+openjdk-8 (8u382-ga-1) unstable; urgency=medium
+
+  [ Thorsten Glaser ]
+  * In Debian, stick with jtreg (5.x) since the plans to update
+    that to 7 did not materialise (there’s now jtreg7), and the
+    testng required by jtreg 7 for JDK 20 is too new for JDK 8.
+    Keep jtreg6 (currently commented out until available) for
+    Debian ELTS, because it’s so much better than the jtreg 4.x
+    in jessie and stretch. Thanks Vladimir for the research!
+  * Update sparc64 patch
+  * Fix encoding in a documentation file
+  * Refactor generation and use of GCC dependency to avoid
+    surprises from unexpected gcc-defaults changes (sid just
+    switched to 13, but that is too early to try for this month)
+
+  [ Vincent Prat, Emmanuel Bourg ]
+  * Change maintainer address mailing list address
+
+  [ Thorsten Glaser ]
+  * New upstream release
+  * CVEs
+    - CVE-2023-22045
+    - CVE-2023-22049
+  * Security fixes
+    - JDK-8298676: Enhanced Look and Feel
+    - JDK-8300596: Enhance Jar Signature validation
+    - JDK-8304468: Better array usages
+    - JDK-8305312: Enhanced path handling
+  * Other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2023-July/017285.html
+  * Upload sponsored by ⮡̶ ̶t̶a̶r̶e̶n̶t̶Qvest digital
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 21 Jul 2023 19:19:02 +0200
+
+openjdk-8 (8u382~b04-2) unstable; urgency=medium
+
+  * Rewrite codename-based if(n)eqs, so they fail safer (Closes: #1040167)
+  * Maybe fix sparc64 Linux build failure
+  * Do not run check for nōn-Hotspot architectures (Closes: #1040181)
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 03 Jul 2023 00:17:03 +0200
+
+openjdk-8 (8u382~b04-1) unstable; urgency=low
+
+  * Merge *buntu changes
+    - limit the change to keep using jtreg to that distro
+  * Update to latest prerelease, update d/copyright accordingly
+  * Appease more lintian
+  * Upload sponsored by ⮡ tarent
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 29 Jun 2023 21:40:41 +0200
+
+openjdk-8 (8u372-ga-1ubuntu1) mantic; urgency=medium
+
+  * Merge with Debian unstable (LP: #2019255). Remaining changes:
+    - debian/JB-jre-headless.postinst.in: trigger ca-certificates-java after jre
+      is set up.
+    - d/rules: remove IcedTeaPlugin.so reference (LP: #2016396).
+  * New changes:
+    - d/rules: use jtreg package instead of jtreg6.
+
+ -- Vladimir Petko <vladimir.petko@canonical.com>  Fri, 12 May 2023 08:30:25 +1200
+
+openjdk-8 (8u372-ga-1) unstable; urgency=medium
+
+  [ Thorsten Glaser ]
+  * B-D and test-depend on libasmtools-java where applicable
+
+  [ John Paul Adrian Glaubitz ]
+  * Fix sh4 FTBFS
+
+  [ Emilio Pozuelo Monfort ]
+  * New upstream release.
+  * Security fixes:
+    - JDK-8287404: Improve ping times
+    - JDK-8288436: Improve Xalan supports
+    - JDK-8294474, CVE-2023-21930: Better AES support
+    - JDK-8295304, CVE-2023-21938: Runtime support improvements
+    - JDK-8296496, JDK-8292652: large memory allocation in sizecalc.h
+    - JDK-8296676, JDK-8296622: Improve String platform support
+    - JDK-8296684, JDK-8296692, JDK-8296700, CVE-2023-21937:
+      Improve String platform support
+    - JDK-8296832, CVE-2023-21939: Improve Swing platform support
+    - JDK-8297371: Improve UTF8 representation redux
+    - JDK-8298191, CVE-2023-21954: Enhance object reclamation process
+    - JDK-8298310, CVE-2023-21967: Enhance TLS session negotiation
+    - JDK-8298667, CVE-2023-21968: Improved path handling
+    - JDK-8299129: Enhance NameService lookups
+  * For other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2023-April/017039.html
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Wed, 10 May 2023 10:45:58 +0200
+
+openjdk-8 (8u372-ga~us1-0ubuntu1) mantic; urgency=medium
+
+  * OpenJDK 8u372 release, build 7.
+    - CVE-2023-21930, CVE-2023-21937, CVE-2023-21938, CVE-2023-21939,
+      CVE-2023-21954, CVE-2023-21967, CVE-2023-21968.
+    - Release notes:
+      https://mail.openjdk.org/pipermail/jdk8u-dev/2023-April/017039.html
+  * d/rules: remove IcedTeaPlugin.so reference (LP: #2016396).
+
+ -- Vladimir Petko <vladimir.petko@canonical.com>  Fri, 28 Apr 2023 15:44:40 +0200
+
+openjdk-8 (8u362-ga-0ubuntu2) lunar; urgency=medium
+
+  * debian/JB-jre-headless.postinst.in: trigger ca-certificates-java after jre
+    is set up.
+
+ -- Vladimir Petko <vladimir.petko@canonical.com>  Wed, 01 Mar 2023 17:18:57 +1300
 
 openjdk-8 (8u362-ga-4) unstable; urgency=medium
 
@@ -37,6 +313,28 @@ openjdk-8 (8u362-ga-2) unstable; urgency=medium
   * Build -Os not -O3 on mipsel, cf. #971018 for this workaround idea
 
  -- Thorsten Glaser <tg@mirbsd.de>  Wed, 01 Feb 2023 17:23:02 +0100
+
+openjdk-8 (8u362-ga-0ubuntu1) lunar; urgency=medium
+
+  * New upstream release
+  * CVEs
+    - CVE-2023-21830
+    - CVE-2023-21843
+  * Security fixes
+    - JDK-8285021: Improve CORBA communication
+    - JDK-8286496: Improve Thread labels
+    - JDK-8288516: Enhance font creation
+    - JDK-8289350: Better media supports
+    - JDK-8293554: Enhanced DH Key Exchanges
+    - JDK-8293598: Enhance InetAddress address handling
+    - JDK-8293717: Objective view of ObjectView
+    - JDK-8293734: Improve BMP image handling
+    - JDK-8293742: Better Banking of Sounds
+    - JDK-8295687: Better BMP bounds
+  * Other changes see
+    https://mail.openjdk.org/pipermail/jdk8u-dev/2023-January/016479.html
+
+ -- Vladimir Petko <vladimir.petko@canonical.com>  Fri, 20 Jan 2023 09:19:08 +1300
 
 openjdk-8 (8u362-ga-1) unstable; urgency=medium
 

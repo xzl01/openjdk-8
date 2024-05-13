@@ -45,10 +45,9 @@ In older releases (stretch, xenial, and anything before), it is
 often not worth the delay to run the tests at all. Reasons for
 test failures are:
 
-• jasm, jcoder, etc. missing: there is no Debian package for
-  https://wiki.openjdk.java.net/display/CodeTools/asmtools
-  at all, despite jtreg officially depending on it (all releases)
-  ‣ https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1028366
+• jasm, jcoder, etc. missing: libasmtools-java only was added to
+  Debian in 2023Q1, despite jtreg officially depending on it
+  ‣ backport/ELTS needed
 
 • jtreg doesn’t know @comment which is used in some tests (old releases)
   ‣ jtreg6 as backport/via ELTS
